@@ -3,6 +3,8 @@ import GoogleProvider from "next-auth/providers/google"
 
 /** Route Handler for Authentication
  * https://nextjs.org/docs/app/api-reference/file-conventions/route
+ * 
+ * https://next-auth.js.org/configuration/initialization#route-handlers-app
  */
 export const authOptions:AuthOptions = {
   providers:[
@@ -15,12 +17,10 @@ export const authOptions:AuthOptions = {
     strategy: 'jwt' as SessionStrategy,
   },
   callbacks: {
-    //@ts-ignore
     async signIn({account, profile}) {
-      if (account?.provider ==='google') {
-        console.log(profile?.email);
+      if (account?.provider ==='google' && profile?.email) {
         const list = ['wietekepots@gmail.com'];
-        return  list.includes(profile?.email);
+        return  list.includes(profile.email);
       }
       return true;
     }
