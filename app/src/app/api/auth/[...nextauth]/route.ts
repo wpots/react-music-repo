@@ -1,5 +1,6 @@
 import NextAuth, { AuthOptions, SessionStrategy } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
+import { isVerifiedUser } from "./verifyUser.service";
 
 /** Route Handler for Authentication
  * https://nextjs.org/docs/app/api-reference/file-conventions/route
@@ -16,13 +17,19 @@ export const authOptions:AuthOptions = {
   session: {
     strategy: 'jwt' as SessionStrategy,
   },
+  // https://next-auth.js.org/configuration/callbacks
   callbacks: {
+    // @ts-ignore
     async signIn({account, profile}) {
       if (account?.provider ==='google' && profile?.email) {
-        const list = ['wietekepots@gmail.com'];
-        return  list.includes(profile.email);
+        try {
+          return await isVerifiedUser(profile.email);
+        } catch (error) {
+          console.log(error)
+          return false;
+        }
       }
-      return true;
+      return false;
     }
   }
 }

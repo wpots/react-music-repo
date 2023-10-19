@@ -1,0 +1,27 @@
+const isVerifiedUser = async (email:string) => {
+  try {
+    const data = await fetch (`https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        query:`{
+          memberCollection {
+            items {
+              eMail
+            }
+          }
+        }`,
+      }),
+      headers:{
+        'Content-Type' : 'application/json',
+        'Authorization': `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`
+      }
+    });
+    const response = await data.json();
+    const verifiedEmails = response.data.memberCollection.items.filter(i => i.eMail).map(i => i.eMail);
+    return verifiedEmails.includes(email)
+  } catch (error) {
+    throw new Error('verifyUSer Service failed!')
+  }
+    
+}
+export {isVerifiedUser}
