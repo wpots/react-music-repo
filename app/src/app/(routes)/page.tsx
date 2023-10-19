@@ -1,26 +1,18 @@
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { signIn } from "next-auth/react"
+
+
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 export default async function Page (): Promise<any> {
-  const session = await getServerSession(authOptions)
-var canUseDOM = !!(
-  (typeof window !== 'undefined' &&
-  window.document && window.document.createElement)
-);
-  
+  const session = await getServerSession(authOptions);
+
 
   return (
     <div className='grid grid-cols-2 text-white p-4'>
-      <div>{canUseDOM && 'CLIENT'}
-        {
-          session !== null
-            ? <h1 className='leading-loose text-[15rem] font-extrabold text-accent'>
-                Hi {session?.user?.name}! 
-               < br /> <a className='btn btn-primary' href='/api/auth/signout'>Sign out</a>
-              </h1>
-            : <a className='btn btn-primary' href='/api/auth/signin'>Sign in</a>
-        }
-      </div>
+
     </div>
   )
 }
