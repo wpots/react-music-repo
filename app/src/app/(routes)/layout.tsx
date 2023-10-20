@@ -1,6 +1,6 @@
-import Header from '@/app/_components/Header';
-import Drawer from '@/app/_components/Drawer';
-import Footer from '@/app/_components/Footer';
+import MainHeader from '@/app/_components/Layout/MainHeader';
+import Drawer from '@/app/_components/Layout/Drawer';
+import Footer from '@/app/_components/Layout/Footer';
 
 
 
@@ -13,7 +13,7 @@ export default function DashboardLayout({
     <div className="dashboard">
       {/* Include shared UI here e.g. a header or sidebar */}
 
-      <Header />
+      <MainHeader />
       <Drawer />
       <main>{children}</main>
       <Footer />

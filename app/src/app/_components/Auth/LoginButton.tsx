@@ -9,6 +9,6 @@ export default function LoginButton({children}:{
   const handleLogin = () => signIn('google');
 
   return (
-    <Button onClick={handleLogin} variant="contained">{children} BITCH</Button>
+    <Button onClick={handleLogin} variant="contained">{children}</Button>
   )
 }

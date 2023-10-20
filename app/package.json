@@ -17,6 +17,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@mui/icons-material": "^5.14.14",
     "@react-oauth/google": "^0.11.1",
     "@types/node": "^20",
     "@types/react": "^18",
@@ -24,7 +25,9 @@
     "contentful-management": "^11.2.0",
     "eslint": "^8",
     "eslint-config-next": "13.5.4",
+    "graphql-tag": "^2.12.6",
     "next-auth": "^4.23.2",
+    "server-only": "^0.0.1",
     "typescript": "^5"
   }
 }

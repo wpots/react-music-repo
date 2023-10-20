@@ -10,5 +10,10 @@ export const preload = (id:string) => {
 }
 
 export const  ssrFetch = cache(async (id:string) => {
+  try {
+    
+  } catch (error) {
+    
+  }
   // function here
 })
