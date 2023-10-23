@@ -1,0 +1,48 @@
+.layout-default {
+  --drawer-width: 240px;
+  --appbar-height: 64px;
+  display: flex;
+
+  & > main {
+    margin-top: calc(var(--appbar-height) + 2rem);
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.top-navigation {
+  z-index: 1300;
+  .menu-toggle {
+    margin-left: -1rem;
+    margin-right: 2rem;
+  }
+  .drawer-is-open & {
+    .menu-toggle {
+      display: none;
+    }
+    width: calc(100% - var(--drawer-width));
+    margin-left: var(var(--drawer-width));
+  }
+}
+
+.drawer,
+.drawer .MuiDrawer-paper {
+  z-index: 1200;
+  width: 65px;
+  overflow-x: hidden;
+  flex-shrink: 0;
+
+  .drawer-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-height: var(--appbar-height);
+    padding: 0.5rem 1rem;
+  }
+
+  .drawer-is-open &,
+  .drawer-is-open & .MuiDrawer-paper {
+    width: var(--drawer-width);
+    overflow-x: hidden;
+  }
+}
