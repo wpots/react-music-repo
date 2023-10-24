@@ -8,9 +8,11 @@ export default async function Page() {
   const session = await getServerSession(authOptions);
 
   if (session) {
-    let events;
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+
     try {
-      events = await ContentService.fetchContentCollection("event", undefined);
+      const events = await ContentService.fetchContentCollection("event", { date });
       return <>{events?.length > 0 && <EventList items={events} listType="card" />}</>;
     } catch (error) {
       console.log(error);

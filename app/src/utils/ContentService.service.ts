@@ -22,6 +22,7 @@ const contentService = {
   },
   contentUri: `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
   async fetchContentCollection(type: string, variables?: Record<any, any>) {
+    console.log(variables);
     try {
       const data = await fetch(this.contentUri, {
         method: "POST",
@@ -35,12 +36,12 @@ const contentService = {
         },
       });
       let response = await data.json();
+      if (response.errors) throw new Error(JSON.stringify(response) || "no correct response");
       if (type) response = this.mapContentCollection({ data: response.data, type });
 
       return response;
     } catch (error) {
       console.log(error);
-      throw new Error("Failed to fetch content");
     }
   },
   mapContentCollection({ data, type }: { data: any; type: string }) {

@@ -12,8 +12,8 @@ export type EventDTO = {
 };
 
 const getEventsQuery = `
- {
-  eventCollection(where: {isConcert: false}, limit: 20) {
+ query getEvents($date:DateTime!) {
+  eventCollection(where: {isConcert: false, AND:{date_gte: $date}}, limit: 20, order: date_ASC) {
     items {
       date
       venue
