@@ -1,47 +1,52 @@
-import { gql } from 'graphql-tag';
+import "server-only"; // give developers build time error when importing in Client Component
+import getTeamsQuery from "./queries/getTeams.graphql";
+import getEventsQuery from "./queries/getEvents.graphql";
 
-const resolveCollections = (dto: Record<any,any>) => {
+const resolveCollections = (dto: Record<any, any>) => {
   for (const key in dto) {
-      const value = dto[key];
-      if (key.includes('Collection')) {
-        const newKey = key.replace('Collection', '');
-        delete dto[key];
-        const newValue = (value?.items?.length > 0 && value.items) ?? null;
-        dto[newKey] = newValue;
-      }
+    const value = dto[key];
+    if (key.includes("Collection")) {
+      const newKey = key.replace("Collection", "");
+      delete dto[key];
+      const newValue = (value?.items?.length > 0 && value.items.map(i => resolveCollections(i))) ?? null;
+      dto[newKey] = newValue;
+    }
   }
   return dto;
-}
-
+};
 
 const contentService = {
+  getContentQuery: {
+    team: getTeamsQuery as WebGLQuery,
+    event: getEventsQuery as WebGLQuery,
+  },
   contentUri: `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
-  async fetchContent(query:WebGLQuery, variables?:Record<any,any>, mapper?:string) {
+  async fetchContentCollection(type: string, variables?: Record<any, any>) {
     try {
       const data = await fetch(this.contentUri, {
-        method:'POST',
-        body:JSON.stringify({query,variables}),
-              headers:{
-          'Content-Type' : 'application/json',
-          'Authorization': `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`
-        }
-      })
+        method: "POST",
+        body: JSON.stringify({
+          query: this.getContentQuery[type as keyof typeof this.getContentQuery],
+          variables,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`,
+        },
+      });
       let response = await data.json();
-      if(mapper) response = this.mappers[mapper]?.(response);
-      
+      if (type) response = this.mapContentCollection({ data: response.data, type });
+
       return response;
     } catch (error) {
-      console.log(error)
-      throw new Error('Failed to fetch content')
+      console.log(error);
+      throw new Error("Failed to fetch content");
     }
-    
   },
-  mappers: {
-    mapEvents({data}:{data:Record<any,any>}) {
-      return data.eventCollection.items;
-    }
-  } as Record<any, any>
+  mapContentCollection({ data, type }: { data: any; type: string }) {
 
-}
+    return data[`${type}Collection`]?.items?.map((i: Record<any, any>) => resolveCollections(i));
+  },
+};
 
 export default contentService;

@@ -1,21 +1,20 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import ContentService from "@/utils/ContentService.service";
-import getEventsQuery from "@/utils/queries/getEvents.graphql";
-import { Typography } from "@mui/material";
 
-export default async function Page(): Promise<any> {
+import EventList from "../_components/Events/EventList";
+
+export default async function Page() {
   const session = await getServerSession(authOptions);
 
   if (session) {
+    let events;
     try {
-    } catch (error) {}
+      events = await ContentService.fetchContentCollection("event", undefined);
+      return <>{events?.length > 0 && <EventList items={events} listType="card" />}</>;
+    } catch (error) {
+      console.log(error);
+      throw new Error(JSON.stringify(error) || "Could not get Events");
+    }
   }
-  const events = await ContentService.fetchContent(getEventsQuery, undefined, "mapEvents");
-
-  return (
-    <div className="grid grid-cols-2 text-white p-4">
-      {session && events?.length > 0 && events.map((e, idx) => <h4 key={idx}>{e.title}</h4>)}
-    </div>
-  );
 }

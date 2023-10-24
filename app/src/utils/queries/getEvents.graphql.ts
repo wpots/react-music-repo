@@ -1,4 +1,16 @@
-import {gql} from 'graphql-tag';
+import { SongDTO } from "./getSongs.graphql";
+
+export type EventDTO = {
+  title: string;
+  date: Date | string;
+  venue?: string;
+  location?: { lon: string; lat: string };
+  description?: string;
+  repertoireListCollection?: {
+    items: SongDTO[];
+  };
+};
+
 const getEventsQuery = `
  {
   eventCollection(where: {isConcert: false}, limit: 20) {

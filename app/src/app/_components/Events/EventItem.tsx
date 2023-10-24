@@ -1,9 +1,12 @@
+import { IEvent } from "@/domain/Event";
 import { Typography } from "@mui/material";
-
-export default function EventItem() {
+export interface EventItemProps {
+  item: IEvent;
+}
+export default function EventItem({ item }) {
   return (
     <>
-      <Typography component="h2">AgendaItem</Typography>
+      <Typography component="h2">{item.title}</Typography>
     </>
   );
 }

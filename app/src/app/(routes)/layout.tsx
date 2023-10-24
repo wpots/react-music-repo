@@ -4,6 +4,7 @@ import AppDrawer from "@/app/_components/Layout/Drawer";
 import Footer from "@/app/_components/Layout/Footer";
 import { useState } from "react";
 import "./layout.scss";
+import { Box, Container } from "@mui/material";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -20,8 +21,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       <MainHeader onMenuOpen={handleDrawerOpen} />
       <AppDrawer onDismissDrawer={handleDrawerClose} />
-      <main>{children}</main>
-      <Footer />
+      <main>
+        <Box sx={{ width: "100%" }}>
+          <Container>{children}</Container>
+        </Box>
+      </main>
+      {/* <Footer /> */}
     </div>
   );
 }
