@@ -9,7 +9,7 @@ interface TeamProps {
   expanded: string | false;
 }
 export default function Team({ team, id, onPanelSelected, expanded }: TeamProps) {
-  const handlePanelSelected = () => {
+  const handlePanelSelected = (id: string) => {
     onPanelSelected(id);
   };
 
@@ -21,7 +21,9 @@ export default function Team({ team, id, onPanelSelected, expanded }: TeamProps)
         </Typography>
         <AvatarGroup sx={{ marginLeft: "auto" }}>
           {team.members.map((m, idx) => (
-            <Avatar alt={m.firstName} title={m.firstName} key={idx} />
+            <Avatar alt={m.firstName} title={m.firstName} key={idx}>
+              {Array.from(m.firstName)[0]}
+            </Avatar>
           ))}
         </AvatarGroup>
       </AccordionSummary>

@@ -1,9 +1,9 @@
-const isVerifiedUser = async (email:string) => {
+const isVerifiedUser = async (email: string) => {
   try {
-    const data = await fetch (`https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`, {
-      method: 'POST',
+    const data = await fetch(`https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`, {
+      method: "POST",
       body: JSON.stringify({
-        query:`{
+        query: `{
           memberCollection {
             items {
               eMail
@@ -11,17 +11,16 @@ const isVerifiedUser = async (email:string) => {
           }
         }`,
       }),
-      headers:{
-        'Content-Type' : 'application/json',
-        'Authorization': `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`
-      }
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`,
+      },
     });
     const response = await data.json();
-    const verifiedEmails = response.data.memberCollection.items.filter(i => i.eMail).map(i => i.eMail);
-    return verifiedEmails.includes(email)
+    const verifiedEmails = response.data.memberCollection.items.filter((i: any) => i.eMail).map((i: any) => i.eMail);
+    return verifiedEmails.includes(email);
   } catch (error) {
-    throw new Error('verifyUSer Service failed!')
+    throw new Error("verifyUSer Service failed!");
   }
-    
-}
-export {isVerifiedUser}
+};
+export { isVerifiedUser };

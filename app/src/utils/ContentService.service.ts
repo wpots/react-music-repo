@@ -8,7 +8,7 @@ const resolveCollections = (dto: Record<any, any>) => {
     if (key.includes("Collection")) {
       const newKey = key.replace("Collection", "");
       delete dto[key];
-      const newValue = (value?.items?.length > 0 && value.items.map(i => resolveCollections(i))) ?? null;
+      const newValue = (value?.items?.length > 0 && value.items.map((i: any) => resolveCollections(i))) ?? null;
       dto[newKey] = newValue;
     }
   }
@@ -44,7 +44,6 @@ const contentService = {
     }
   },
   mapContentCollection({ data, type }: { data: any; type: string }) {
-
     return data[`${type}Collection`]?.items?.map((i: Record<any, any>) => resolveCollections(i));
   },
 };

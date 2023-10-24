@@ -1,14 +1,10 @@
 import { Typography } from "@mui/material";
 import MusicItem from "./MusicItem";
 
-export default function MusicList({ items, listTitle, listShort }) {
+export default function MusicList() {
   return (
     <>
-      <Typography component="h2">{listTitle}</Typography>
-      <Typography paragraph>{listShort}</Typography>
-      {items.map((i, idx) => (
-        <MusicItem item={i} key={idx} />
-      ))}
+      <Typography component="h2">Done</Typography>
     </>
   );
 }

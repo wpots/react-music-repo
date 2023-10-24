@@ -3,18 +3,16 @@ import { Card, CardHeader, CardMedia, CardContent, CardActions, Typography, Coll
 import { EventItemProps } from "./EventItem";
 import ExpandIcon from "@mui/icons-material/ExpandMore";
 import { useState, useMemo } from "react";
+import { IEvent } from "@/domain/Event";
 
 export interface EventCardProps extends EventItemProps {
   imageHeight?: number;
 }
 
 export default function EventCard({ item, imageHeight }: EventCardProps) {
-  const [date, setDate] = useState(item.date);
-
-  useMemo(() => {
-    const date = new Date(item.date);
-    setDate(date.toLocaleDateString("nl-NL", { year: "numeric", month: "long", day: "numeric" }));
-  }, []);
+  // const [date, setDate] = useState(item.date);
+  const _date = new Date(item.date);
+  const date = _date.toLocaleDateString("nl-NL", { year: "numeric", month: "long", day: "numeric" });
 
   const handleCardExpand = () => {
     console.log("here");
